@@ -1,0 +1,161 @@
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node.js || MySQL</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h5>Product List</h5>
+      <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#myModalAdd">
+        Add New Product
+      </button>
+      <table class="table table-sm table-striped" id="mytable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each results}}
+            <tr>
+              <td>{{nomor_na}}</td>
+              <td>{{guar_na}}</td>
+              <td>{{arga_na}}</td>
+              <td>
+                <div class="btn-group">
+                  <button
+                    data-nomor_na="{{nomor_na}}"
+                    data-guar_na="{{guar_na}}"
+                    data-arga_na="{{arga_na}}"
+                    class="btn btn-sm btn-primary edit"
+                  >Edit</button>
+                  <button class="btn btn-sm btn-danger delete"
+                    data-nomor_na="{{nomor_na}}"
+                  >Delete</button>
+                </div>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+    {{!-- Modal Delete. --}}
+    <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <form action="/delete" method="post">
+          <div class="modal-content">
+            <div class="modal-header bg-danger">
+              <h5>Delete Product</h5>
+            </div>
+            <div class="modal-body">
+              <h6>Confirm to Delete this Product!</h6>
+              <input type="hidden" name="nomor_na" class="nomor_na">
+            </div>
+            <div class="modal-footer bg-secondary">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-warning" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-sm btn-primary">Delete</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    {{!-- /. Modal Delete. --}}
+
+    {{! Modal Edit. }}
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form action="/update" method="post">
+          <div class="modal-content">
+            <div class="modal-header bg-info">
+              <h5>Update Product</h5>
+            </div>
+            <div class="modal-body">
+              <div class="mb-2">
+                <label for="guar_na" class="col-form-label">Product Name:</label>
+                <input type="text" name="guar_na" id="guar_na" class="form-control form-control-sm" required />
+              </div>
+              <div class="mb-2">
+                <label for="arga_na" class="col-form-label">Price:</label>
+                <input type="text" name="arga_na" id="arga_na" class="form-control form-control-sm" required />
+              </div>
+            </div>
+            <div class="modal-footer bg-secondary">
+              <div class="btn-group">
+                <input type="hidden" name="nomor_na" id="nomor_na">
+                <button type="button" class="btn btn-sm btn-warning" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    {{! /. modal edit. }}
+
+    {{! Modal Add New. }}
+    <div class="modal fade" id="myModalAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form action="/save" method="post">
+          <div class="modal-content">
+            <div class="modal-header bg-success">
+              <h5>Add New Product</h5>
+            </div>
+            <div class="modal-body">
+              <div class="mb-2">
+                <label for="guar_na" class="col-form-label">Product Name:</label>
+                <input type="text" name="guar_na" class="form-control form-control-sm" required />
+              </div>
+              <div class="mb-2">
+                <label for="arga_na" class="col-form-label">Price:</label>
+                <input type="text" name="arga_na" class="form-control form-control-sm" required />
+              </div>
+            </div>
+            <div class="modal-footer bg-secondary">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-warning" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-sm btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    {{! /. modal add new. }}
+
+    <script src="/assets/jquery/jquery.js"></script>
+    <script src="/assets/js/bootstrap.js"></script>
+    <script>
+      $(document).ready(function() { // Data modal edit.
+        $('#mytable').on('click', '.edit', function() { 
+          var nomor_na = $(this).data('nomor_na'); 
+          var guar_na = $(this).data('guar_na');
+          var arga_na = $(this).data('arga_na'); 
+
+          $('#modalEdit').modal('show');
+
+          $('#guar_na').val(guar_na);
+          $('#arga_na').val(arga_na);
+          $('#nomor_na').val(nomor_na);
+        });
+
+        $('#mytable').on('click', '.delete', function() { 
+          var nomor_na = $(this).data('nomor_na'); 
+          $('#modalDelete').modal('show');
+          $('.nomor_na').val(nomor_na);
+        }); 
+      });
+    </script>
+  </body>
+
+</html>
