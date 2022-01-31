@@ -4,6 +4,7 @@ const express = require('express');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const jquery = require('jquery');
 const { urlToHttpOptions } = require('url');
 const app = express();
 
@@ -23,12 +24,16 @@ conn.connect((err) => {
 
 /* Set Views File. */
 app.set('views', path.join(__dirname, 'views'));
+
 /*  Set Views Engine.*/
 app.set('view engine', 'hbs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-/* Set Folder Public Sebagai Static Folder Untuk Static File. */
-app.use('/assets', express.static(__dirname + '/public'));
+
+/* Setting module jquery dan bootstrap agar dapat digunakan untuk static file. */
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 
 /* Route Untuk Home Page. */
 app.get('/', (req, res) => {
